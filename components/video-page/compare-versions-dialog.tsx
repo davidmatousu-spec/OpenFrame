@@ -35,8 +35,8 @@ export const CompareVersionsDialog = memo(function CompareVersionsDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Select Versions to Compare</DialogTitle>
-          <DialogDescription>Choose 2 or more versions to compare side by side.</DialogDescription>
+          <DialogTitle>Vyberte verze k porovnání</DialogTitle>
+          <DialogDescription>Zvolte 2 nebo více verzí pro porovnání vedle sebe.</DialogDescription>
         </DialogHeader>
         <div className="space-y-2 mt-2 max-h-64 overflow-y-auto">
           {versions
@@ -66,10 +66,10 @@ export const CompareVersionsDialog = memo(function CompareVersionsDialog({
                   </div>
                   <Badge variant="secondary">v{v.versionNumber}</Badge>
                   <span className="text-sm font-medium truncate">
-                    {v.versionLabel || `Version ${v.versionNumber}`}
+                    {v.versionLabel || `Verze ${v.versionNumber}`}
                   </span>
                   <span className="ml-auto text-xs text-muted-foreground shrink-0">
-                    {v._count.comments} comments
+                    {v._count.comments} komentářů
                   </span>
                 </button>
               );
@@ -81,7 +81,7 @@ export const CompareVersionsDialog = memo(function CompareVersionsDialog({
           onClick={onCompare}
         >
           <GitCompareArrows className="h-4 w-4 mr-2" />
-          Compare {selectedCompareVersions.size} Versions
+          Porovnat {selectedCompareVersions.size} verze
         </Button>
       </DialogContent>
     </Dialog>
