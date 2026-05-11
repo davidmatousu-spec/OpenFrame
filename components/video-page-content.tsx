@@ -595,8 +595,12 @@ export function VideoPageContent({
   const handleCompareConfirm = useCallback(() => {
     const ids = Array.from(selectedCompareVersions).join(',');
     setShowCompareDialog(false);
-    router.push(`/projects/${propProjectId}/videos/${videoId}/compare?versions=${ids}`);
-  }, [propProjectId, router, selectedCompareVersions, videoId]);
+    if (mode === 'watch') {
+      router.push(`/watch/${videoId}/compare?versions=${ids}`);
+    } else {
+      router.push(`/projects/${propProjectId}/videos/${videoId}/compare?versions=${ids}`);
+    }
+  }, [mode, propProjectId, router, selectedCompareVersions, videoId]);
 
   const handleStartEditAnnotation = useCallback(() => {
     if (playerRef.current?.pauseVideo) {
