@@ -95,6 +95,8 @@ interface PlayerCoreProps {
     options?: { pauseAfterSeek?: boolean; timestampEnd?: number | null }
   ) => void;
   commentMarkers: CommentMarker[];
+  pendingRangeStart: number | null;
+  pendingRangeEnd: number | null;
 }
 
 export const PlayerCore = memo(function PlayerCore({
@@ -155,6 +157,8 @@ export const PlayerCore = memo(function PlayerCore({
   handleTimelineMouseMove,
   handleSeekToTimestamp,
   commentMarkers,
+  pendingRangeStart,
+  pendingRangeEnd,
 }: PlayerCoreProps) {
   return (
     <>
@@ -573,6 +577,27 @@ export const PlayerCore = memo(function PlayerCore({
               />
             );
           })}
+
+          {/* Pending comment range preview */}
+          {pendingRangeStart !== null && duration > 0 && (() => {
+            const startPct = (pendingRangeStart / duration) * 100;
+            if (pendingRangeEnd !== null) {
+              const endPct = (pendingRangeEnd / duration) * 100;
+              return (
+                <div className="absolute top-1/2 z-20 h-4 -translate-y-1/2 pointer-events-none" style={{ left: `calc(${startPct}% - 6px)`, width: `calc(${Math.max(endPct - startPct, 0)}% + 12px)` }}>
+                  <span className="absolute left-[6px] right-[6px] top-1/2 h-1 -translate-y-1/2 rounded-full opacity-50 animate-pulse" style={{ backgroundColor: '#F59E0B' }} />
+                  <span className="absolute left-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: '#F59E0B' }} />
+                  <span className="absolute right-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: '#F59E0B' }} />
+                </div>
+              );
+            }
+            return (
+              <div
+                className="absolute top-1/2 z-20 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-background animate-pulse pointer-events-none"
+                style={{ left: `calc(${startPct}% - 8px)`, backgroundColor: '#F59E0B' }}
+              />
+            );
+          })()}
         </div>
       </div>
     </>

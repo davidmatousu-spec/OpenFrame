@@ -819,6 +819,8 @@ export function VideoPageContent({
             handleTimelineMouseMove={handleTimelineMouseMove}
             handleSeekToTimestamp={handleSeekToTimestamp}
             commentMarkers={commentMarkers}
+            pendingRangeStart={commentRangeStart}
+            pendingRangeEnd={commentRangeEnd}
           />
         </div>
 
