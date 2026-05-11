@@ -215,6 +215,19 @@ export const VideoPageHeader = memo(function VideoPageHeader({
           />
         </div>
 
+
+        {versions.length >= 2 && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenCompare}
+            className="hidden sm:inline-flex"
+          >
+            <GitCompareArrows className="h-4 w-4 mr-1" />
+            Porovnat
+          </Button>
+        )}
+
         {mode === 'dashboard' && (
           <>
             {canManageVideo ? (
@@ -243,18 +256,6 @@ export const VideoPageHeader = memo(function VideoPageHeader({
                 </Badge>
               ) : null}
             </Button>
-
-            {versions.length >= 2 && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onOpenCompare}
-                className="hidden sm:inline-flex"
-              >
-                <GitCompareArrows className="h-4 w-4 mr-1" />
-                Porovnat
-              </Button>
-            )}
 
             {canManageVideo ? (
               <div className="hidden">
