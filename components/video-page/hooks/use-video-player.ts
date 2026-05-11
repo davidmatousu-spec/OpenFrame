@@ -876,24 +876,42 @@ export function useVideoPlayer({
           }
           break;
         case 'Comma':
+          e.preventDefault();
           if (e.shiftKey) {
-            e.preventDefault();
             const currentIndex = speedOptions.indexOf(playbackSpeed);
             if (currentIndex > 0) {
               const newSpeed = speedOptions[currentIndex - 1];
               setPlaybackSpeed(newSpeed);
               playerRef.current?.setPlaybackRate(newSpeed);
             }
+          } else {
+            // Frame step backward (like YouTube's , key)
+            if (playerRef.current) {
+              playerRef.current.pauseVideo();
+              const step = frameStepSeconds;
+              const newTime = Math.max(0, currentTime - step);
+              playerRef.current.seekTo(newTime, true);
+              setCurrentTime(newTime);
+            }
           }
           break;
         case 'Period':
+          e.preventDefault();
           if (e.shiftKey) {
-            e.preventDefault();
             const currentIndex = speedOptions.indexOf(playbackSpeed);
             if (currentIndex < speedOptions.length - 1) {
               const newSpeed = speedOptions[currentIndex + 1];
               setPlaybackSpeed(newSpeed);
               playerRef.current?.setPlaybackRate(newSpeed);
+            }
+          } else {
+            // Frame step forward (like YouTube's . key)
+            if (playerRef.current) {
+              playerRef.current.pauseVideo();
+              const step = frameStepSeconds;
+              const newTime = Math.min(duration, currentTime + step);
+              playerRef.current.seekTo(newTime, true);
+              setCurrentTime(newTime);
             }
           }
           break;
@@ -940,6 +958,7 @@ export function useVideoPlayer({
     isMuted,
     playbackSpeed,
     speedOptions,
+    frameStepSeconds,
     handleSkip,
     toggleFullscreen,
     playerRef,
