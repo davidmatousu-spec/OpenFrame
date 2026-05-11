@@ -52,16 +52,16 @@ export function ShareLinkUnlock({ videoId }: ShareLinkUnlockProps) {
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-3">
             <Lock className="h-6 w-6 text-primary" />
           </div>
-          <h1 className="text-xl font-semibold">Password Required</h1>
+          <h1 className="text-xl font-semibold">Vyžadováno heslo</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Enter the password to continue to the shared video.
+            Zadejte heslo pro přístup ke sdílenému videu.
           </p>
         </div>
 
         <div className="space-y-3">
           <Input
             type="password"
-            placeholder="Password"
+            placeholder="Heslo"
             value={password}
             maxLength={128}
             onChange={(event) => setPassword(event.target.value)}
@@ -74,18 +74,18 @@ export function ShareLinkUnlock({ videoId }: ShareLinkUnlockProps) {
           />
 
           <Button className="w-full" disabled={isSubmitting} onClick={() => void submitPassword()}>
-            {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Continue'}
+            {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Pokračovat'}
           </Button>
 
           {error && <p className="text-sm text-destructive">{error}</p>}
         </div>
 
         <p className="text-xs text-muted-foreground text-center mt-4">
-          Or{' '}
+          Nebo se{' '}
           <Link href="/login" className="underline hover:text-foreground">
-            sign in
+            přihlaste
           </Link>{' '}
-          with your account
+          pomocí svého účtu
         </p>
       </div>
     </div>

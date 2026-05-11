@@ -71,13 +71,13 @@ export function ApprovalRequestDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Request Approval</DialogTitle>
-          <DialogDescription>Select one or more approvers for this version.</DialogDescription>
+          <DialogTitle>Žádost o schválení</DialogTitle>
+          <DialogDescription>Vyberte jednoho nebo více schvalovatelů pro tuto verzi.</DialogDescription>
         </DialogHeader>
 
         {isBlockedByPendingRequest ? (
           <div className="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-300">
-            A pending approval request already exists for this version.
+            Pro tuto verzi již existuje čekající žádost o schválení.
           </div>
         ) : null}
 
@@ -90,7 +90,7 @@ export function ApprovalRequestDialog({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <p className="text-xs text-muted-foreground">
-              Approvers ({selectedApproverIds.length} selected)
+              Schvalovatelé ({selectedApproverIds.length} vybráno)
             </p>
             <Button
               size="sm"
@@ -98,13 +98,13 @@ export function ApprovalRequestDialog({
               onClick={onRefreshCandidates}
               disabled={isLoadingCandidates}
             >
-              {isLoadingCandidates ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh'}
+              {isLoadingCandidates ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Obnovit'}
             </Button>
           </div>
           <div className="max-h-56 overflow-y-auto rounded-md border p-2 space-y-1">
             {selectableCandidates.length === 0 ? (
               <p className="text-sm text-muted-foreground px-2 py-3">
-                No eligible approvers found.
+                Nebyli nalezeni žádní schvalovatelé.
               </p>
             ) : (
               selectableCandidates.map((candidate) => {
@@ -137,7 +137,7 @@ export function ApprovalRequestDialog({
                       {selected ? (
                         <Badge variant="default" className="gap-1">
                           <Check className="h-3 w-3" />
-                          Selected
+                          Vybráno
                         </Badge>
                       ) : null}
                     </div>
@@ -149,11 +149,11 @@ export function ApprovalRequestDialog({
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs text-muted-foreground">Message (optional)</p>
+          <p className="text-xs text-muted-foreground">Zpráva (volitelná)</p>
           <Textarea
             value={message}
             onChange={(event) => setMessage(event.target.value)}
-            placeholder="Include context for the approvers..."
+            placeholder="Přidejte kontext pro schvalovatele..."
             rows={3}
             maxLength={2000}
             disabled={isBlockedByPendingRequest}
@@ -168,7 +168,7 @@ export function ApprovalRequestDialog({
             }
           >
             {isSubmittingRequest ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-            Create Request
+            Vytvořit žádost
           </Button>
         </DialogFooter>
       </DialogContent>

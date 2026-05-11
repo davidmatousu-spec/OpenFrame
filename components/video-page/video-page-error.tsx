@@ -21,10 +21,10 @@ export const VideoPageError = memo(function VideoPageError({
   return (
     <div className={cn(containerHeight, 'flex items-center justify-center bg-background')}>
       <div className="text-center">
-        <p className="text-muted-foreground mb-4">{error || 'Video not found'}</p>
+        <p className="text-muted-foreground mb-4">{error || 'Video nebylo nalezeno'}</p>
         <Button asChild variant="outline">
           <Link href={mode === 'dashboard' ? `/projects/${projectId}` : '/'}>
-            {mode === 'dashboard' ? 'Back to Project' : 'Go Home'}
+            {mode === 'dashboard' ? 'Zpět na projekt' : 'Na úvod'}
           </Link>
         </Button>
       </div>

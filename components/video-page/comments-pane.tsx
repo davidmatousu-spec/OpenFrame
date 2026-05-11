@@ -199,7 +199,7 @@ export const CommentsPane = memo(function CommentsPane({
     return `${formatTime(timestamp)} - ${formatTime(timestampEnd)}`;
   };
   const replyRangeButtonLabel =
-    replyRangeStart === null || replyRangeEnd !== null ? 'Set In' : 'Set Out';
+    replyRangeStart === null || replyRangeEnd !== null ? 'Začátek' : 'Konec';
   const replyRangeLabel =
     replyRangeStart !== null
       ? replyRangeEnd !== null
@@ -246,7 +246,7 @@ export const CommentsPane = memo(function CommentsPane({
       >
         {isPaneDraggingOver && (
           <div className="absolute inset-0 z-20 flex items-center justify-center border-2 border-dashed border-primary bg-primary/10 pointer-events-none">
-            <p className="text-sm font-medium text-primary">Drop image to attach</p>
+            <p className="text-sm font-medium text-primary">Přetáhněte obrázek pro přiložení</p>
           </div>
         )}
         <div className="shrink-0 p-4 border-b lg:cursor-default space-y-2">
@@ -259,7 +259,7 @@ export const CommentsPane = memo(function CommentsPane({
                 onClick={() => setActivePane('comments')}
               >
                 <MessageSquare className="h-4 w-4 mr-1" />
-                Comments
+                Komentáře
                 <Badge variant="secondary" className="ml-2">
                   {comments.length}
                 </Badge>
@@ -271,7 +271,7 @@ export const CommentsPane = memo(function CommentsPane({
                 onClick={() => setActivePane('assets')}
               >
                 <FolderOpen className="h-4 w-4 mr-1" />
-                Assets
+                Soubory
                 <Badge variant="secondary" className="ml-2">
                   {assets.length}
                 </Badge>
@@ -298,7 +298,7 @@ export const CommentsPane = memo(function CommentsPane({
                   handleToggleShowResolved();
                 }}
               >
-                Resolved
+                Vyřešené
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -328,11 +328,11 @@ export const CommentsPane = memo(function CommentsPane({
                     title={
                       isGuest
                         ? 'CSV export requires an authenticated account'
-                        : 'Download comments as CSV'
+                        : 'Stáhnout komentáře jako CSV'
                     }
                   >
                     <Download className="h-4 w-4 mr-2" />
-                    Download CSV
+                    Stáhnout CSV
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     disabled={!activeVersion || isExportingCsv || isExportingPdf}
@@ -340,10 +340,10 @@ export const CommentsPane = memo(function CommentsPane({
                       e.stopPropagation();
                       handleExportComments('pdf');
                     }}
-                    title="Download comments as PDF"
+                    title="Stáhnout komentáře jako PDF"
                   >
                     <FileText className="h-4 w-4 mr-2" />
-                    Download PDF
+                    Stáhnout PDF
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -366,8 +366,8 @@ export const CommentsPane = memo(function CommentsPane({
             {filteredComments.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
                 <MessageSquare className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                <p>No comments yet</p>
-                <p className="text-sm">Be the first to leave feedback!</p>
+                <p>Zatím žádné komentáře</p>
+                <p className="text-sm">Buďte první, kdo zanešá zpětnou vazbu!</p>
               </div>
             ) : (
               sortedComments.map((comment) => {
@@ -443,7 +443,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 }}
                               >
                                 <Reply className="h-4 w-4 mr-2" />
-                                Reply
+                                Odpovědět
                               </DropdownMenuItem>
                               {canEditComment && (
                                 <DropdownMenuItem
@@ -454,7 +454,7 @@ export const CommentsPane = memo(function CommentsPane({
                                   }}
                                 >
                                   <Pencil className="h-4 w-4 mr-2" />
-                                  Edit
+                                  Upravit
                                 </DropdownMenuItem>
                               )}
                               {canDeleteComment && (
@@ -463,7 +463,7 @@ export const CommentsPane = memo(function CommentsPane({
                                   onClick={() => handleDeleteComment(comment.id)}
                                 >
                                   <Trash2 className="h-4 w-4 mr-2" />
-                                  Delete
+                                  Smazat
                                 </DropdownMenuItem>
                               )}
                             </DropdownMenuContent>
@@ -504,7 +504,7 @@ export const CommentsPane = memo(function CommentsPane({
                             {isSubmittingEdit ? (
                               <Loader2 className="h-3 w-3 animate-spin" />
                             ) : (
-                              'Save'
+                              'Uložit'
                             )}
                           </Button>
                           <Button
@@ -519,7 +519,7 @@ export const CommentsPane = memo(function CommentsPane({
                             }}
                             className="h-7 text-xs"
                           >
-                            Cancel
+                            Zrušit
                           </Button>
                           <Button
                             size="icon"
@@ -561,7 +561,7 @@ export const CommentsPane = memo(function CommentsPane({
                                   className="gap-2"
                                 >
                                   <X className="h-3 w-3" />
-                                  No Tag
+                                  Bez štítku
                                   {!editTagId && <span className="ml-auto">✓</span>}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
@@ -658,7 +658,7 @@ export const CommentsPane = memo(function CommentsPane({
                       {comment.annotationData && (
                         <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-500 text-white shrink-0 flex items-center gap-1">
                           <Pencil className="h-2.5 w-2.5" />
-                          Annotated
+                          Anotováno
                         </span>
                       )}
                       {comment.tag && (
@@ -729,7 +729,7 @@ export const CommentsPane = memo(function CommentsPane({
                                           }}
                                         >
                                           <Pencil className="h-4 w-4 mr-2" />
-                                          Edit
+                                          Upravit
                                         </DropdownMenuItem>
                                       )}
                                       {canDeleteReply && (
@@ -738,7 +738,7 @@ export const CommentsPane = memo(function CommentsPane({
                                           onClick={() => handleDeleteComment(reply.id)}
                                         >
                                           <Trash2 className="h-4 w-4 mr-2" />
-                                          Delete
+                                          Smazat
                                         </DropdownMenuItem>
                                       )}
                                     </DropdownMenuContent>
@@ -774,7 +774,7 @@ export const CommentsPane = memo(function CommentsPane({
                                       {isSubmittingEdit ? (
                                         <Loader2 className="h-3 w-3 animate-spin" />
                                       ) : (
-                                        'Save'
+                                        'Uložit'
                                       )}
                                     </Button>
                                     <Button
@@ -786,7 +786,7 @@ export const CommentsPane = memo(function CommentsPane({
                                       }}
                                       className="h-7 text-xs"
                                     >
-                                      Cancel
+                                      Zrušit
                                     </Button>
                                   </div>
                                 </div>
@@ -969,7 +969,7 @@ export const CommentsPane = memo(function CommentsPane({
                               value={replyText}
                               onChange={setReplyText}
                               assets={assets}
-                              placeholder="Add a note (optional)..."
+                              placeholder="Přidejte poznámku (volitelné)..."
                               rows={1}
                               className="resize-none text-sm"
                             />
@@ -994,7 +994,7 @@ export const CommentsPane = memo(function CommentsPane({
                                   className="h-7 text-xs"
                                   onClick={clearReplyRangeSelection}
                                 >
-                                  Clear
+                                  Vymazat
                                 </Button>
                               )}
                             </div>
@@ -1008,7 +1008,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 {isUploadingReplyAudio || isUploadingReplyImage ? (
                                   <Loader2 className="h-3 w-3 animate-spin" />
                                 ) : (
-                                  'Send Reply'
+                                  'Odeslat odpověď'
                                 )}
                               </Button>
                               <Button
@@ -1017,7 +1017,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 onClick={cancelReplyRecording}
                                 className="h-7 text-xs"
                               >
-                                Cancel
+                                Zrušit
                               </Button>
                             </div>
                           </div>
@@ -1052,7 +1052,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 value={replyText}
                                 onChange={setReplyText}
                                 assets={assets}
-                                placeholder="Write a reply..."
+                                placeholder="Napište odpověď..."
                                 rows={2}
                                 className="resize-none text-sm flex-1"
                                 autoFocus
@@ -1072,7 +1072,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 size="icon"
                                 variant="outline"
                                 onClick={startReplyRecording}
-                                title="Record voice reply"
+                                title="Nahrát hlasovou odpověď"
                                 className="h-8 w-8 shrink-0 self-end"
                               >
                                 <Mic className="h-3 w-3" />
@@ -1081,7 +1081,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 size="icon"
                                 variant="outline"
                                 onClick={() => replyImageInputRef.current?.click()}
-                                title="Attach Image"
+                                title="Přiložit obrázek"
                                 className="h-8 w-8 shrink-0 self-end"
                               >
                                 <ImageIcon className="h-3 w-3" />
@@ -1115,7 +1115,7 @@ export const CommentsPane = memo(function CommentsPane({
                                   className="h-7 text-xs"
                                   onClick={clearReplyRangeSelection}
                                 >
-                                  Clear
+                                  Vymazat
                                 </Button>
                               )}
                             </div>
@@ -1133,7 +1133,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 {isSubmittingReply || isUploadingReplyImage ? (
                                   <Loader2 className="h-3 w-3 animate-spin" />
                                 ) : (
-                                  'Reply'
+                                  'Odpovědět'
                                 )}
                               </Button>
                               <Button
@@ -1146,7 +1146,7 @@ export const CommentsPane = memo(function CommentsPane({
                                 }}
                                 className="h-7 text-xs"
                               >
-                                Cancel
+                                Zrušit
                               </Button>
                             </div>
                           </>
@@ -1164,7 +1164,7 @@ export const CommentsPane = memo(function CommentsPane({
                         className="mt-2 text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
                       >
                         <Reply className="h-3 w-3" />
-                        Reply
+                        Odpovědět
                       </button>
                     )}
                   </div>

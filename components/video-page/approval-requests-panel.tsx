@@ -39,7 +39,7 @@ function statusBadge(status: ApprovalRequest['status']) {
     return (
       <Badge variant="secondary" className="gap-1">
         <Clock3 className="h-3 w-3" />
-        Pending
+         Čeká
       </Badge>
     );
   }
@@ -47,7 +47,7 @@ function statusBadge(status: ApprovalRequest['status']) {
     return (
       <Badge className="gap-1 bg-emerald-600 hover:bg-emerald-600">
         <CheckCircle2 className="h-3 w-3" />
-        Approved
+        Schváleno
       </Badge>
     );
   }
@@ -55,14 +55,14 @@ function statusBadge(status: ApprovalRequest['status']) {
     return (
       <Badge variant="destructive" className="gap-1">
         <XCircle className="h-3 w-3" />
-        Rejected
+        Zamítnuto
       </Badge>
     );
   }
   return (
     <Badge variant="outline" className="gap-1">
       <ShieldX className="h-3 w-3" />
-      Canceled
+      Zrušeno
     </Badge>
   );
 }
@@ -71,10 +71,10 @@ function decisionLabel(
   requestStatus: ApprovalRequest['status'],
   decisionStatus: 'PENDING' | 'APPROVED' | 'REJECTED'
 ) {
-  if (decisionStatus === 'APPROVED') return 'Approved';
-  if (decisionStatus === 'REJECTED') return 'Rejected';
-  if (requestStatus === 'CANCELED') return 'Canceled';
-  return 'Pending';
+  if (decisionStatus === 'APPROVED') return 'Schváleno';
+  if (decisionStatus === 'REJECTED') return 'Zamítnuto';
+  if (requestStatus === 'CANCELED') return 'Zrušeno';
+  return 'Čeká';
 }
 
 export function ApprovalRequestsPanel({
@@ -128,15 +128,15 @@ export function ApprovalRequestsPanel({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-xl p-0">
         <SheetHeader>
-          <SheetTitle>Approvals</SheetTitle>
+          <SheetTitle>Schválení</SheetTitle>
           <SheetDescription>
-            Review request history and respond to pending approvals.
+            Historie žádostí a odpovědi na čekající schválení.
           </SheetDescription>
         </SheetHeader>
 
         <div className="px-4 pb-4 space-y-3 overflow-y-auto">
           <div className="flex items-center justify-between">
-            <p className="text-xs text-muted-foreground">{requests.length} request(s)</p>
+            <p className="text-xs text-muted-foreground">{requests.length} žádost(í)</p>
             <div className="flex items-center gap-2">
               <Button
                 size="sm"
@@ -144,7 +144,7 @@ export function ApprovalRequestsPanel({
                 onClick={onOpenApprovalRequest}
                 disabled={!canRequestApproval || !!pendingRequest}
               >
-                Request Approval
+                Žádost o schválení
               </Button>
               <Button size="sm" variant="ghost" onClick={onRefresh} disabled={isLoadingRequests}>
                 {isLoadingRequests ? (
@@ -164,15 +164,15 @@ export function ApprovalRequestsPanel({
 
           {pendingRequest && myPendingDecision ? (
             <div className="rounded-md border p-3 space-y-2">
-              <p className="text-sm font-medium">Your response is required</p>
+              <p className="text-sm font-medium">Vaše odpověď je vyžadována</p>
               <p className="text-xs text-muted-foreground">
-                {pendingRequest.requestedBy.name || pendingRequest.requestedBy.email || 'A user'}{' '}
-                requested approval.
+                {pendingRequest.requestedBy.name || pendingRequest.requestedBy.email || 'Uživatel'}{' '}
+                požádal o schválení.
               </p>
               <Textarea
                 value={decisionNote}
                 onChange={(event) => setDecisionNote(event.target.value)}
-                placeholder="Optional note"
+                placeholder="Volitelná poznámka"
                 rows={3}
                 maxLength={2000}
               />
@@ -183,7 +183,7 @@ export function ApprovalRequestsPanel({
                   disabled={isSubmittingDecision}
                 >
                   {isSubmittingDecision ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                  Approve
+                  Schválit
                 </Button>
                 <Button
                   size="sm"
@@ -192,7 +192,7 @@ export function ApprovalRequestsPanel({
                   disabled={isSubmittingDecision}
                 >
                   {isSubmittingDecision ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                  Reject
+                  Zamítnout
                 </Button>
               </div>
             </div>
@@ -207,7 +207,7 @@ export function ApprovalRequestsPanel({
                 disabled={isCancelingRequest}
               >
                 {isCancelingRequest ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Cancel Pending Request
+                Zrušit čekající žádost
               </Button>
             </div>
           ) : null}
@@ -215,14 +215,14 @@ export function ApprovalRequestsPanel({
           <div className="space-y-2">
             {requests.length === 0 ? (
               <p className="text-sm text-muted-foreground py-4 text-center">
-                No approval requests yet.
+                Zatím žádné žádosti o schválení.
               </p>
             ) : (
               requests.map((request) => (
                 <div key={request.id} className="rounded-md border p-3 space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <p className="text-sm font-medium">
-                      Requested by{' '}
+                      Požádáno od{' '}
                       {request.requestedBy.name || request.requestedBy.email || 'Unknown'}
                     </p>
                     {statusBadge(request.status)}

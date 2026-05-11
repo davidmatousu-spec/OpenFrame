@@ -87,7 +87,7 @@ export const DownloadControls = memo(function DownloadControls({
             ) : (
               <Download className="h-4 w-4 mr-2" />
             )}
-            Download Original
+            Stáhnout originál
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={(event) => {
@@ -101,7 +101,7 @@ export const DownloadControls = memo(function DownloadControls({
             ) : (
               <Download className="h-4 w-4 mr-2" />
             )}
-            Download Compressed
+            Stáhnout komprimované
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -211,7 +211,7 @@ export const DownloadMenuItems = memo(function DownloadMenuItems({
           ) : (
             <Download className="h-4 w-4 mr-2" />
           )}
-          Download Compressed
+          Stáhnout komprimované
         </DropdownMenuItem>
       </>
     );

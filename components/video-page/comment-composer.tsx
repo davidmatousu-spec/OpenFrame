@@ -112,7 +112,7 @@ export const CommentComposer = memo(function CommentComposer({
   assets,
 }: CommentComposerProps) {
   const rangeButtonLabel =
-    commentRangeStart === null || commentRangeEnd !== null ? 'Set In' : 'Set Out';
+    commentRangeStart === null || commentRangeEnd !== null ? 'Začátek' : 'Konec';
   const hasCommentRange = commentRangeStart !== null;
   const commentRangeLabel =
     commentRangeStart !== null
@@ -127,7 +127,7 @@ export const CommentComposer = memo(function CommentComposer({
         <div className="flex items-center gap-3 p-3 bg-destructive/10 border border-destructive/30 rounded-lg">
           <div className="h-3 w-3 rounded-full bg-destructive animate-pulse" />
           <span className="text-sm font-medium text-destructive">
-            Recording {formatTime(recordingTime)}
+            Nahrávání {formatTime(recordingTime)}
           </span>
           <div className="flex-1" />
           <Button size="sm" variant="destructive" onClick={stopRecording}>
@@ -203,7 +203,7 @@ export const CommentComposer = memo(function CommentComposer({
           )}
 
           <MentionTextarea
-            placeholder="Add a note to your voice comment (optional)..."
+            placeholder="Přidejte poznámku k hlasovému komentáři (volitelné)..."
             value={commentText}
             onChange={setCommentText}
             assets={assets}
@@ -231,7 +231,7 @@ export const CommentComposer = memo(function CommentComposer({
                 className="h-7 text-xs"
                 onClick={clearCommentRangeSelection}
               >
-                Clear
+                Vymazat
               </Button>
             )}
           </div>
@@ -244,12 +244,12 @@ export const CommentComposer = memo(function CommentComposer({
             {isUploadingAudio || isUploadingImage ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                Uploading Media...
+                Nahrávám média...
               </>
             ) : (
               <>
                 <Send className="h-4 w-4 mr-2" />
-                Send Voice Comment
+                Odeslat hlasový komentář
               </>
             )}
           </Button>
@@ -259,7 +259,7 @@ export const CommentComposer = memo(function CommentComposer({
           {(annotationStrokes || isAnnotating) && (
             <div className="flex items-center gap-2 px-2 py-1.5 mb-2 rounded-md bg-violet-500/10 border border-violet-500/30">
               <Pencil className="h-3.5 w-3.5 text-violet-500 shrink-0" />
-              <span className="text-xs text-violet-400 font-medium">Annotation attached</span>
+              <span className="text-xs text-violet-400 font-medium">Anotace přiložena</span>
               <button
                 className="ml-auto text-xs text-muted-foreground hover:text-destructive transition-colors"
                 onClick={() => {
@@ -267,7 +267,7 @@ export const CommentComposer = memo(function CommentComposer({
                   setIsAnnotating(false);
                 }}
               >
-                Remove
+                Odebrat
               </button>
             </div>
           )}
@@ -314,14 +314,14 @@ export const CommentComposer = memo(function CommentComposer({
                 className="h-7 text-xs"
                 onClick={clearCommentRangeSelection}
               >
-                Clear
+                Vymazat
               </Button>
             )}
           </div>
           <div className="flex gap-2 items-stretch">
             <div className="flex-1 min-w-0">
               <MentionTextarea
-                placeholder="Add a comment..."
+                placeholder="Přidejte komentář..."
                 value={commentText}
                 onChange={setCommentText}
                 assets={assets}
@@ -355,7 +355,7 @@ export const CommentComposer = memo(function CommentComposer({
                 size="icon"
                 variant="outline"
                 onClick={startRecording}
-                title="Record voice comment"
+                title="Nahrát hlasový komentář"
               >
                 <Mic className="h-4 w-4" />
               </Button>
@@ -363,7 +363,7 @@ export const CommentComposer = memo(function CommentComposer({
                 size="icon"
                 variant="outline"
                 onClick={() => imageInputRef.current?.click()}
-                title="Attach Image"
+                title="Přiložit obrázek"
               >
                 <ImageIcon className="h-4 w-4" />
               </Button>
@@ -378,8 +378,8 @@ export const CommentComposer = memo(function CommentComposer({
                 }}
                 title={
                   annotationStrokes
-                    ? 'Annotation added ✓ (click to redraw)'
-                    : 'Draw annotation on video'
+                    ? 'Anotace přidána ✓ (klikněte pro překreslení)'
+                    : 'Nakreslit anotaci na video'
                 }
               >
                 <Pencil className="h-4 w-4" />
@@ -397,7 +397,7 @@ export const CommentComposer = memo(function CommentComposer({
                     <Button
                       size="icon"
                       variant={selectedTagId ? 'default' : 'outline'}
-                      title="Select tag"
+                      title="Vybrat štítek"
                       style={
                         selectedTagId
                           ? {
@@ -444,7 +444,7 @@ export const CommentComposer = memo(function CommentComposer({
               )}
             </div>
           </div>
-          <p className="text-xs text-muted-foreground mt-2">Cmd+Enter to submit</p>
+          <p className="text-xs text-muted-foreground mt-2">Ctrl+Enter pro odeslání</p>
         </>
       )}
     </div>

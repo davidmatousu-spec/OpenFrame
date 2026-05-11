@@ -39,14 +39,14 @@ export function GuestGate({ children }: { children: ReactNode }) {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
             <User className="h-6 w-6 text-primary" />
           </div>
-          <h1 className="text-xl font-semibold mb-1">Welcome to OpenFrame</h1>
+          <h1 className="text-xl font-semibold mb-1">Vítejte v OpenFrame</h1>
           <p className="text-sm text-muted-foreground">
-            Enter your name to view and comment on this project
+            Zadejte své jméno pro zobrazení a komentování tohoto projektu
           </p>
         </div>
         <div className="space-y-3">
           <Input
-            placeholder="Your name"
+            placeholder="Vaše jméno"
             value={guestName}
             maxLength={100}
             onChange={(e) => setGuestName(e.target.value)}
@@ -60,15 +60,15 @@ export function GuestGate({ children }: { children: ReactNode }) {
             disabled={!guestName.trim() || guestName.trim().length > 100}
             onClick={confirm}
           >
-            Continue
+            Pokračovat
           </Button>
         </div>
         <p className="text-xs text-muted-foreground text-center mt-4">
-          Or{' '}
+          Nebo se{' '}
           <Link href="/login" className="underline hover:text-foreground">
-            sign in
+            přihlaste
           </Link>{' '}
-          with your account
+          pomocí svého účtu
         </p>
       </div>
     </div>

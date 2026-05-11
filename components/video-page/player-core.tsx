@@ -242,10 +242,10 @@ export const PlayerCore = memo(function PlayerCore({
               <div className="max-w-sm rounded-md border bg-background/95 px-4 py-3 text-center shadow-lg">
                 <div className="mb-2 flex items-center justify-center gap-2 text-sm font-medium">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Video Is Processing
+                  Video se zpracovává
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  This video is still processing. We&apos;ll keep retrying every few seconds.
+                  Toto video se stále zpracovává. Automaticky to zkusíme znovu za pár sekund.
                 </p>
               </div>
             </div>
@@ -256,10 +256,10 @@ export const PlayerCore = memo(function PlayerCore({
               <div className="max-w-sm rounded-md border bg-background/95 px-4 py-3 text-center shadow-lg">
                 <div className="mb-2 flex items-center justify-center gap-2 text-sm font-medium">
                   <AlertCircle className="h-4 w-4 text-destructive" />
-                  Unable To Load Video
+                  Nelze načíst video
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  The Bunny stream is unavailable right now. Please refresh this page in a moment.
+                  Bunny stream je momentálně nedostupný. Obnovte prosím stránku.
                 </p>
               </div>
             </div>
@@ -273,9 +273,9 @@ export const PlayerCore = memo(function PlayerCore({
                     <Clock className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-sm">Continue watching?</p>
+                    <p className="font-medium text-sm">Pokračovat v přehrávání?</p>
                     <p className="text-xs text-muted-foreground">
-                      Resume from {formatTime(savedProgress)}
+                      Pokračovat od {formatTime(savedProgress)}
                     </p>
                   </div>
                 </div>
@@ -287,7 +287,7 @@ export const PlayerCore = memo(function PlayerCore({
                     className="flex-1"
                   >
                     <Play className="h-4 w-4 mr-1" />
-                    Resume
+                    Pokračovat
                   </Button>
                   <Button
                     size="sm"
@@ -295,7 +295,7 @@ export const PlayerCore = memo(function PlayerCore({
                     onClick={handleDismissResume}
                     className="flex-1"
                   >
-                    Start over
+                    Začít znovu
                   </Button>
                 </div>
               </div>
@@ -361,7 +361,7 @@ export const PlayerCore = memo(function PlayerCore({
             size="icon"
             className="h-8 w-8"
             onClick={() => handleSkip(-10)}
-            title={isFrameMode ? `Back ${frameStepLabel}` : 'Back 10s'}
+            title={isFrameMode ? `Zpět ${frameStepLabel}` : 'Zpět 10s'}
           >
             <SkipBack className="h-4 w-4" />
           </Button>
@@ -371,7 +371,7 @@ export const PlayerCore = memo(function PlayerCore({
             size="icon"
             className="h-8 w-8"
             onClick={() => handleSkip(10)}
-            title={isFrameMode ? `Forward ${frameStepLabel}` : 'Forward 10s'}
+            title={isFrameMode ? `Vpřed ${frameStepLabel}` : 'Vpřed 10s'}
           >
             <SkipForward className="h-4 w-4" />
           </Button>
@@ -390,16 +390,16 @@ export const PlayerCore = memo(function PlayerCore({
               size="sm"
               className="h-8 gap-1 text-xs"
               onClick={handleFrameModeToggle}
-              title="Toggle frame step mode"
+              title="Přepnout režim snímků"
             >
-              Frame {frameStepLabel}
+              Snímek {frameStepLabel}
             </Button>
 
             {activeProviderId === 'bunny' && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="h-8 gap-1 text-xs">
-                    Quality {selectedQualityLabel}
+                    Kvalita {selectedQualityLabel}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="min-w-[120px]">
@@ -413,7 +413,7 @@ export const PlayerCore = memo(function PlayerCore({
                     onClick={() => handleQualityChange(-2)}
                     className={cn(selectedQualityLevel === -2 && 'font-bold text-primary')}
                   >
-                    Original
+                    Originál
                   </DropdownMenuItem>
                   {qualityOptions.length > 0 && <DropdownMenuSeparator />}
                   {qualityOptions.map((option) => (
@@ -456,7 +456,7 @@ export const PlayerCore = memo(function PlayerCore({
               size="icon"
               className="h-8 w-8"
               onClick={toggleFullscreen}
-              title={isFullscreenMode ? 'Exit fullscreen (F)' : 'Fullscreen (F)'}
+              title={isFullscreenMode ? 'Ukončit celé obrazovky (F)' : 'Celá obrazovka (F)'}
             >
               {isFullscreenMode ? (
                 <Minimize className="h-4 w-4" />
@@ -471,7 +471,7 @@ export const PlayerCore = memo(function PlayerCore({
                 size="icon"
                 className="h-8 w-8"
                 onClick={() => setShowComments(!showComments)}
-                title={showComments ? 'Hide comments' : 'Show comments'}
+                title={showComments ? 'Skrýt komentáře' : 'Zobrazit komentáře'}
               >
                 {showComments ? (
                   <MessageSquareOff className="h-4 w-4" />
@@ -485,7 +485,7 @@ export const PlayerCore = memo(function PlayerCore({
                 size="icon"
                 className="h-8 w-8 lg:hidden"
                 onClick={() => setIsMobileCommentsOpen(true)}
-                title="Show comments"
+                title="Zobrazit komentáře"
               >
                 <MessageSquare className="h-4 w-4" />
               </Button>
