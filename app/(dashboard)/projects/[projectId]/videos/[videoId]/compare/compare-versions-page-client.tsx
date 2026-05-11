@@ -131,7 +131,7 @@ export default function CompareVersionsPageClient({
   const rafRef = useRef<number | null>(null);
 
   // Comments state per panel
-  const [openCommentsPanel, setOpenCommentsPanel] = useState<string | null>(null);
+  const [openCommentsPanels, setOpenCommentsPanels] = useState<Set<string>>(new Set());
   const [commentsCache, setCommentsCache] = useState<Map<string, Comment[]>>(new Map());
   const [commentsLoading, setCommentsLoading] = useState<string | null>(null);
 
@@ -482,11 +482,15 @@ export default function CompareVersionsPageClient({
   // Fetch comments for a version
   const toggleComments = useCallback(
     async (versionId: string) => {
-      if (openCommentsPanel === versionId) {
-        setOpenCommentsPanel(null);
-        return;
-      }
-      setOpenCommentsPanel(versionId);
+      setOpenCommentsPanels((prev) => {
+        const next = new Set(prev);
+        if (next.has(versionId)) {
+          next.delete(versionId);
+        } else {
+          next.add(versionId);
+        }
+        return next;
+      });
 
       if (!commentsCache.has(versionId)) {
         setCommentsLoading(versionId);
@@ -503,7 +507,7 @@ export default function CompareVersionsPageClient({
         }
       }
     },
-    [openCommentsPanel, commentsCache]
+    [commentsCache]
   );
 
   const handleChangeVersion = useCallback((panelIndex: number, newVersionId: string) => {
@@ -522,7 +526,7 @@ export default function CompareVersionsPageClient({
       next[panelIndex] = newVersionId;
       return next;
     });
-    setOpenCommentsPanel(null);
+    setOpenCommentsPanels(new Set());
   }, []);
 
   // Collect all comments from all visible panels for timeline markers
@@ -613,7 +617,7 @@ export default function CompareVersionsPageClient({
           const version = video.versions.find((v) => v.id === versionId);
           if (!version) return null;
           const panelComments = commentsCache.get(versionId) || [];
-          const isCommentsOpen = openCommentsPanel === versionId;
+          const isCommentsOpen = openCommentsPanels.has(versionId);
           const isLoadingComments = commentsLoading === versionId;
 
           return (
@@ -773,7 +777,7 @@ export default function CompareVersionsPageClient({
                       variant="ghost"
                       size="icon"
                       className="h-6 w-6"
-                      onClick={() => setOpenCommentsPanel(null)}
+                      onClick={() => setOpenCommentsPanels((prev) => { const next = new Set(prev); next.delete(versionId); return next; })}
                     >
                       <X className="h-3.5 w-3.5" />
                     </Button>
