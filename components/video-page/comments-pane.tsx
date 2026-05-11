@@ -367,7 +367,7 @@ export const CommentsPane = memo(function CommentsPane({
               <div className="text-center py-8 text-muted-foreground">
                 <MessageSquare className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 <p>Zatím žádné komentáře</p>
-                <p className="text-sm">Buďte první, kdo zanešá zpětnou vazbu!</p>
+                <p className="text-sm">Buďte první, kdo přidá zpětnou vazbu!</p>
               </div>
             ) : (
               sortedComments.map((comment) => {
