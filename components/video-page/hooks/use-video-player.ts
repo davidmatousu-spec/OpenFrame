@@ -817,9 +817,12 @@ export function useVideoPlayer({
   const handleSkip = useCallback(
     (seconds: number) => {
       const newTime = Math.max(0, Math.min(duration, currentTime + resolveSkipAmount(seconds)));
+      if (isFrameMode && playerRef.current) {
+        playerRef.current.pauseVideo();
+      }
       handleSeekToTimestamp(newTime);
     },
-    [currentTime, duration, handleSeekToTimestamp, resolveSkipAmount]
+    [currentTime, duration, handleSeekToTimestamp, isFrameMode, playerRef, resolveSkipAmount]
   );
 
   useEffect(() => {
