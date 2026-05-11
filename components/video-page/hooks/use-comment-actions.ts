@@ -1149,6 +1149,8 @@ export function useCommentActions({
     setImageBlob,
     commentRangeStart,
     commentRangeEnd,
+    setCommentRangeStart,
+    setCommentRangeEnd,
     toggleCommentRangeSelection,
     clearCommentRangeSelection,
     isUploadingImage,

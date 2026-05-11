@@ -427,6 +427,8 @@ export function VideoPageContent({
     setImageBlob,
     commentRangeStart,
     commentRangeEnd,
+    setCommentRangeStart,
+    setCommentRangeEnd,
     toggleCommentRangeSelection,
     clearCommentRangeSelection,
     isUploadingImage,
@@ -821,6 +823,8 @@ export function VideoPageContent({
             commentMarkers={commentMarkers}
             pendingRangeStart={commentRangeStart}
             pendingRangeEnd={commentRangeEnd}
+            onPendingRangeStartChange={setCommentRangeStart}
+            onPendingRangeEndChange={setCommentRangeEnd}
           />
         </div>
 
@@ -929,6 +933,9 @@ export function VideoPageContent({
               setCommentText={setCommentText}
               commentRangeStart={commentRangeStart}
               commentRangeEnd={commentRangeEnd}
+              setCommentRangeStart={setCommentRangeStart}
+              setCommentRangeEnd={setCommentRangeEnd}
+              videoDuration={videoDuration}
               toggleCommentRangeSelection={toggleCommentRangeSelection}
               clearCommentRangeSelection={clearCommentRangeSelection}
               playVoice={playVoice}

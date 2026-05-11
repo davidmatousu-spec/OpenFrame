@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, type RefObject } from 'react';
+import { memo, useCallback, type RefObject } from 'react';
 import {
   AlertCircle,
   Clock,
@@ -97,6 +97,8 @@ interface PlayerCoreProps {
   commentMarkers: CommentMarker[];
   pendingRangeStart: number | null;
   pendingRangeEnd: number | null;
+  onPendingRangeStartChange: (v: number | null) => void;
+  onPendingRangeEndChange: (v: number | null) => void;
 }
 
 export const PlayerCore = memo(function PlayerCore({
@@ -159,7 +161,38 @@ export const PlayerCore = memo(function PlayerCore({
   commentMarkers,
   pendingRangeStart,
   pendingRangeEnd,
+  onPendingRangeStartChange,
+  onPendingRangeEndChange,
 }: PlayerCoreProps) {
+
+  const handlePendingDragStart = useCallback(
+    (which: 'start' | 'end', e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const timeline = timelineRef.current;
+      if (!timeline || duration <= 0) return;
+
+      const onMove = (ev: MouseEvent) => {
+        const rect = timeline.getBoundingClientRect();
+        const fraction = Math.max(0, Math.min(1, (ev.clientX - rect.left) / rect.width));
+        const time = fraction * duration;
+        if (which === 'start') {
+          onPendingRangeStartChange(time);
+        } else {
+          onPendingRangeEndChange(time);
+        }
+      };
+
+      const onUp = () => {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      };
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    },
+    [duration, onPendingRangeStartChange, onPendingRangeEndChange]
+  );
   return (
     <>
       <div
@@ -586,15 +619,24 @@ export const PlayerCore = memo(function PlayerCore({
               return (
                 <div className="absolute top-1/2 z-20 h-4 -translate-y-1/2 pointer-events-none" style={{ left: `calc(${startPct}% - 6px)`, width: `calc(${Math.max(endPct - startPct, 0)}% + 12px)` }}>
                   <span className="absolute left-[6px] right-[6px] top-1/2 h-1 -translate-y-1/2 rounded-full opacity-50 animate-pulse" style={{ backgroundColor: '#F59E0B' }} />
-                  <span className="absolute left-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: '#F59E0B' }} />
-                  <span className="absolute right-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-background animate-pulse" style={{ backgroundColor: '#F59E0B' }} />
+                  <span
+                    className="absolute left-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-background animate-pulse cursor-ew-resize pointer-events-auto"
+                    style={{ backgroundColor: '#F59E0B' }}
+                    onMouseDown={(e) => handlePendingDragStart('start', e)}
+                  />
+                  <span
+                    className="absolute right-0 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-background animate-pulse cursor-ew-resize pointer-events-auto"
+                    style={{ backgroundColor: '#F59E0B' }}
+                    onMouseDown={(e) => handlePendingDragStart('end', e)}
+                  />
                 </div>
               );
             }
             return (
               <div
-                className="absolute top-1/2 z-20 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-background animate-pulse pointer-events-none"
+                className="absolute top-1/2 z-20 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-background animate-pulse cursor-ew-resize pointer-events-auto"
                 style={{ left: `calc(${startPct}% - 8px)`, backgroundColor: '#F59E0B' }}
+                onMouseDown={(e) => handlePendingDragStart('start', e)}
               />
             );
           })()}

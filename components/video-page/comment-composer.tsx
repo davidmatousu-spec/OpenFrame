@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, type RefObject } from 'react';
+import { memo, useState, type RefObject } from 'react';
 import Link from 'next/link';
 import {
   Image as ImageIcon,
@@ -39,6 +39,9 @@ interface CommentComposerProps {
   setCommentText: (value: string) => void;
   commentRangeStart: number | null;
   commentRangeEnd: number | null;
+  setCommentRangeStart: (v: number | null) => void;
+  setCommentRangeEnd: (v: number | null) => void;
+  videoDuration: number;
   toggleCommentRangeSelection: () => void;
   clearCommentRangeSelection: () => void;
   playVoice: (commentId: string, voiceUrl: string, knownDuration?: number) => void;
@@ -82,6 +85,9 @@ export const CommentComposer = memo(function CommentComposer({
   setCommentText,
   commentRangeStart,
   commentRangeEnd,
+  setCommentRangeStart,
+  setCommentRangeEnd,
+  videoDuration,
   toggleCommentRangeSelection,
   clearCommentRangeSelection,
   playVoice,
@@ -111,6 +117,45 @@ export const CommentComposer = memo(function CommentComposer({
   pauseVideoForAnnotation,
   assets,
 }: CommentComposerProps) {
+  const [editingTime, setEditingTime] = useState<'start' | 'end' | null>(null);
+  const [editTimeValue, setEditTimeValue] = useState('');
+
+  const parseTime = (str: string): number | null => {
+    const parts = str.trim().split(':');
+    if (parts.length === 2) {
+      const mins = parseInt(parts[0], 10);
+      const secs = parseFloat(parts[1]);
+      if (!isNaN(mins) && !isNaN(secs) && mins >= 0 && secs >= 0 && secs < 60) {
+        const total = mins * 60 + secs;
+        return total <= videoDuration ? total : null;
+      }
+    }
+    if (parts.length === 1) {
+      const secs = parseFloat(parts[0]);
+      if (!isNaN(secs) && secs >= 0 && secs <= videoDuration) return secs;
+    }
+    return null;
+  };
+
+  const handleTimeEditStart = (which: 'start' | 'end') => {
+    const val = which === 'start' ? commentRangeStart : commentRangeEnd;
+    setEditingTime(which);
+    setEditTimeValue(val !== null ? formatTime(val) : '');
+  };
+
+  const handleTimeEditConfirm = () => {
+    if (!editingTime) return;
+    const parsed = parseTime(editTimeValue);
+    if (parsed !== null) {
+      if (editingTime === 'start') {
+        setCommentRangeStart(parsed);
+      } else {
+        setCommentRangeEnd(parsed);
+      }
+    }
+    setEditingTime(null);
+  };
+
   const rangeButtonLabel =
     commentRangeStart === null || commentRangeEnd !== null ? 'Začátek' : 'Konec';
   const hasCommentRange = commentRangeStart !== null;
@@ -118,7 +163,7 @@ export const CommentComposer = memo(function CommentComposer({
     commentRangeStart !== null
       ? commentRangeEnd !== null
         ? `${formatTime(commentRangeStart)} - ${formatTime(commentRangeEnd)}`
-        : `In ${formatTime(commentRangeStart)}`
+        : `Od ${formatTime(commentRangeStart)}`
       : null;
 
   return (
@@ -303,8 +348,55 @@ export const CommentComposer = memo(function CommentComposer({
               {rangeButtonLabel}
             </Button>
             {commentRangeLabel && (
-              <span className="rounded-md border px-2 py-1 text-xs text-muted-foreground tabular-nums">
-                {commentRangeLabel}
+              <span className="rounded-md border px-2 py-1 text-xs text-muted-foreground tabular-nums inline-flex items-center gap-1">
+                {editingTime === 'start' ? (
+                  <input
+                    type="text"
+                    autoFocus
+                    className="w-10 bg-transparent border-b border-primary text-foreground text-center outline-none text-xs tabular-nums"
+                    value={editTimeValue}
+                    onChange={(e) => setEditTimeValue(e.target.value)}
+                    onBlur={handleTimeEditConfirm}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleTimeEditConfirm(); if (e.key === 'Escape') setEditingTime(null); }}
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    className="hover:text-foreground hover:underline transition-colors cursor-text"
+                    onClick={() => handleTimeEditStart('start')}
+                    title="Klikněte pro úpravu času"
+                  >
+                    {formatTime(commentRangeStart!)}
+                  </button>
+                )}
+                {commentRangeEnd !== null && (
+                  <>
+                    <span>-</span>
+                    {editingTime === 'end' ? (
+                      <input
+                        type="text"
+                        autoFocus
+                        className="w-10 bg-transparent border-b border-primary text-foreground text-center outline-none text-xs tabular-nums"
+                        value={editTimeValue}
+                        onChange={(e) => setEditTimeValue(e.target.value)}
+                        onBlur={handleTimeEditConfirm}
+                        onKeyDown={(e) => { if (e.key === 'Enter') handleTimeEditConfirm(); if (e.key === 'Escape') setEditingTime(null); }}
+                      />
+                    ) : (
+                      <button
+                        type="button"
+                        className="hover:text-foreground hover:underline transition-colors cursor-text"
+                        onClick={() => handleTimeEditStart('end')}
+                        title="Klikněte pro úpravu času"
+                      >
+                        {formatTime(commentRangeEnd)}
+                      </button>
+                    )}
+                  </>
+                )}
+                {commentRangeEnd === null && (
+                  <span className="text-muted-foreground/60 ml-0.5">→</span>
+                )}
               </span>
             )}
             {hasCommentRange && (
